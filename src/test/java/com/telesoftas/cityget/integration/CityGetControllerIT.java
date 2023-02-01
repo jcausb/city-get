@@ -2,6 +2,8 @@ package com.telesoftas.cityget.integration;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,5 +30,15 @@ class CityGetControllerIT {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(getJsonFromResource("integration/response/default.json")));
+    }
+
+    @SneakyThrows
+    @ParameterizedTest
+    @ValueSource(strings = "Tokyo")
+    void getCityByName(String name) {
+        mockMvc.perform(get("/api/v1/cities/" + name)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(getJsonFromResource("integration/response/tokyo.json")));
     }
 }

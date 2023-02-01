@@ -16,4 +16,8 @@ public class CitiesService {
     public Page<City> findAllCities(Pageable pageable) {
         return citiesRepository.findAll(pageable);
     }
+
+    public City findCityByName(String name) {
+        return citiesRepository.findByName(name);
+    }
 }
